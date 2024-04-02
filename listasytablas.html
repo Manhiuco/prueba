@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Listas y tablas</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+ table {margin:0 auto; border-collapse:separate;}
+ thead {background:#CCCCCC;display:block}
+ tbody {overflow-y:scroll;display:block;/*height:500px;*/}
+
+input[type=number]{width: 80px;text-align:right;}
+
+.resultados{min-height:100px;margin:10px;}
+
+textarea{border:4px double #999999; width:100%;background-color: navy;color:lime;border-radius: 7px;}
+p{margin:2px;}
+label {
+  width:55px; 
+  float:left;
+  font-family:arial;
+  font-size:14px;
+}
+select, fieldset {border: 2px solid skyblue;border-radius: 8px;}
+select{background-color: #476e9e;color:white;}
+optgroup {color: lime;}
+option {color: white;}
+button{background-color: #476e9e;color:white;border-radius: 5px;}
+button:hover{background-color:skyblue;cursor:pointer;}
+tr:nth-child(odd) {background-color:#B8D1F3}/*selecciona elementos impares*/
+tr:nth-child(even) {background-color:#DAE5F4}/*selecciona elementos pares*/
+table td:nth-child(1) {background-color:black; color:cyan}/*columna 1*/
+tr:hover {background-color:lime;}
+th {background-color:#21618C;color:white;}
+.divT{border:1px solid #999999;width:100px;float: left;display: block;text-align:center;}
+#tblMult td:nth-child(1),#tblMult tr:nth-child(1) {background-color:darkblue; color:cyan}
+#tblLatino td,#tblMagico td, #tblPesosBinarios td{background-color: SteelBlue; color:white;background-color:linear-gradient(to bottom, cadetblue, SteelBlue);}
+#tblLatino tbody, #tblMagico tbody,#tblPesosBinarios tbody{overflow-y:hidden;}
+#tblValVerdad tr:nth-child(1) {background-color:black; color:lime}
+#tblValVerdad td:nth-child(1),#tblValVerdad td:nth-child(2) {background-color:darkblue; color:cyan}
+#tblValVerdad tr:nth-child(1) {background-color:darkblue; color:lime}
+
+</style>
+</head>
+<body>
+<script>
+//https://www.gaussianos.com/tipos-de-numeros/
+window.addEventListener('load',asignarEventos,false);
+function asignarEventos(){
+document.getElementById('btnMostrar').addEventListener('click',mostrarResultados,false);
+document.getElementById('cboOpciones').addEventListener('change',cambioOpciones,false);
+mostrarResultados();
+}
+function cambioOpciones(){
+  let x = document.getElementById('cboOpciones');
+  x= x.options[x.selectedIndex].value;
+  document.getElementById('idResultados1').style.display='none';
+  document.getElementById('idResultados2').style.display='none';
+  let n1= document.getElementById('txtNumero1');
+  let n2= document.getElementById('txtNumero2');
+  let n3= document.getElementById('txtNumero3');
+  n3.value=1;
+  document.getElementById('pInicio').style.display='block';
+  document.getElementById('pFin').style.display='block';
+  document.getElementById('pRazon').style.display='none';
+  if(x=='aleatorios'||x=='aleatoriosF'){n3.value=1000;document.getElementById('pRazon').style.display='block';document.getElementById('idResultados2').style.display='block';n2.value=1000;}  
+  if(x=='serieArit'){n3.value=2;document.getElementById('pRazon').style.display='block';document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='serieGeom'){n3.value=2;document.getElementById('pRazon').style.display='block';document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='numerosPrimos'){document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='ternasPitagorias'){document.getElementById('idResultados1').style.display='block';n2.value=100;}
+  if(x=='numerosPerfectos'){document.getElementById('pInicio').style.display='none';n2.value=10000;document.getElementById('idResultados2').style.display='block';}
+  if(x=='numerosAbundante' || x=='numerosDefectuoso'){document.getElementById('pInicio').style.display='none';n2.value=100;document.getElementById('idResultados2').style.display='block';} 
+  if(x=='numerosCapicua'){document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='cuadradosPerfectos'){document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='cubosPerfectos'){document.getElementById('idResultados2').style.display='block';n2.value=1000;}
+  if(x=='trianguloPascal'){document.getElementById('pInicio').style.display='none';n2.value=20;document.getElementById('idResultados2').style.display='block';}
+  if(x=='serieFibonacciLimite'){document.getElementById('pInicio').style.display='none'; n2.value=1000000;document.getElementById('idResultados2').style.display='block';} 
+  if(x=='serieFibonacci'){document.getElementById('pInicio').style.display='none'; n2.value=50;document.getElementById('idResultados2').style.display='block';}
+  if(x=='tblMult'){n2.value=12;document.getElementById('idResultados1').style.display='block';}
+  if(x=='cuadradoLatino'){n2.value=11;document.getElementById('idResultados1').style.display='block';}
+  if(x=='cuadradoMagico'){n2.value=11;document.getElementById('idResultados1').style.display='block';}
+  if(x=='potencias'||x=='raices'||x=='logaritmos'){document.getElementById('pRazon').style.display='block';n2.value=100;document.getElementById('idResultados1').style.display='block';}
+  if(x=='codAscii'){n2.value=255;document.getElementById('idResultados1').style.display='block';}
+  if(x=='nroRomanos'){n2.value=3999;document.getElementById('pInicio').style.display='none';document.getElementById('pFin').style.display='none';document.getElementById('idResultados1').style.display='block';}
+  if(x=='fnMath'){n2.value=100;document.getElementById('idResultados1').style.display='block';}
+  if(x=='basesNumericas'){n2.value=100;document.getElementById('idResultados1').style.display='block';}
+  if(x=='fnTrig'||x=='fnTrigInv'||x=='fnHip'||x=='fnHipInv'){document.getElementById('pRazon').style.display='block';n2.value=100;document.getElementById('idResultados1').style.display='block';}
+  if(x=='poligonos'){n1.value=3;n2.value=1000;document.getElementById('idResultados1').style.display='block';}
+  if(x=='pesosBinario'){n1.value=3;document.getElementById('pFin').style.display='none';document.getElementById('idResultados1').style.display='block';}
+  if(x=='valoresVerdad'){document.getElementById('pInicio').style.display='none';document.getElementById('pFin').style.display='none';document.getElementById('idResultados1').style.display='block';}
+  
+  if(x=='tblDivisores'){n2.value=1000;document.getElementById('idResultados1').style.display='block';}
+  if(x=='tblFact'){n1.value=2;n2.value=1000;document.getElementById('idResultados1').style.display='block';}
+  if(x=='formulaRecurrencia'||x=='cumplePatron'){n2.value=1000;document.getElementById('idResultados2').style.display='block';}
+  
+  mostrarResultados();
+}
+
+function mostrarResultados(){
+  let divR=document.getElementById('idResultados1');
+  let n1=parseFloat(document.getElementById('txtNumero1').value);
+  let n2=parseFloat(document.getElementById('txtNumero2').value);
+  let razon=parseFloat(document.getElementById('txtNumero3').value);
+  
+  
+  let x = document.getElementById('cboOpciones');
+  x= x.options[x.selectedIndex].value;
+  let res='';
+  if(x=='aleatorios'){
+    res=TablasNumericas.listaAleatorios(n1,n2,razon);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='aleatoriosF'){
+    res=TablasNumericas.listaAleatorios(n1,n2,razon,1);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='serieArit'){
+    res=TablasNumericas.serieAritmetica(n1,n2,razon);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='serieGeom'){
+    res=TablasNumericas.serieGeometrica(n1,n2,razon);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='numerosPrimos'){
+    res=TablasNumericas.listaNumerosPrimos(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='ternasPitagorias'){
+    res=TablasNumericas.ternasPitagorias(n1,n2);
+	document.getElementById('idResultados1').innerHTML =getHtmlDivs(res);
+  }	
+  if(x=='numerosPerfectos'){
+    res=TablasNumericas.listaNumerosPerfectos(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='numerosAbundante'){
+    res=TablasNumericas.listaNumerosAbundante(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='numerosDefectuoso'){
+    res=TablasNumericas.listaNumerosDefectuosos(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='numerosCapicua'){
+    res=TablasNumericas.listaNumerosCapicua(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='cuadradosPerfectos'){
+    res=TablasNumericas.listaCuadradosPerfectos(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='cubosPerfectos'){
+    res=TablasNumericas.listaCubosPerfectos(n1,n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='formulaRecurrencia'){
+    f= prompt("Ingrese formula de recurrencia. Variable i:","2*i-1");
+    res=TablasNumericas.listaFormulaRecurrencia(n1,n2,f);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='cumplePatron'){
+    f= prompt("Ingrese condicion a comparar:","2**i==i**2");
+    res=TablasNumericas.listaCumplePatron(n1,n2,f);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='trianguloPascal')
+	document.getElementById('txtResultados').innerHTML =TablasNumericas.trianguloPascal(n2).toString();
+  if(x=='serieFibonacciLimite'){
+	res=TablasNumericas.serieFibonacciLimite(n2);
+	document.getElementById('txtResultados').innerHTML ="Total de elementos: "+res.length+ "\nElementos:\n"+res.toString();
+  }
+  if(x=='serieFibonacci')
+	document.getElementById('txtResultados').innerHTML =TablasNumericas.serieFibonacci(n2).toString();
+  if(x=='tblMult'){  
+	res = TablasNumericas.tablaMultiplicar(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos(res,'tblMult',"x");
+  }
+  if(x=='tblDivisores'){
+	res = TablasNumericas.tablaDivisores(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(res,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+	
+  }
+  if(x=='tblFact'){
+	res = TablasNumericas.tablaFactorizacion(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(res,'tbl');
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  
+  if(x=='cuadradoLatino'){
+	res = TablasNumericas.cuadradoLatino(n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos(res,'tblLatino');
+  }
+  if(x=='cuadradoMagico'){
+    if(n2%2==0)n2--;
+	res = TablasNumericas.cuadradoMagico(n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos(res,'tblMagico');
+  }
+  if(x=='potencias'){
+	res = TablasNumericas.tablaPotencias(n1,n2,razon);	
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(res,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='raices'){
+	let r = TablasNumericas.tablaRaices(n1,n2,razon);	
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='logaritmos'){
+	let r = TablasNumericas.tablaLogaritmos(n1,n2,razon);	
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");	
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+
+  if(x=='codAscii'){
+    let r = TablasNumericas.tablaAscii();
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='nroRomanos'){
+    let r = TablasNumericas.tablaRomanos();
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='fnMath'){
+  let r = TablasNumericas.funcionesBasicas(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='basesNumericas'){
+  let r = TablasNumericas.basesNumericas(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='fnTrig'){
+  let r = TablasNumericas.fnTrigonometricas(n1,n2,razon);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+    if(x=='fnTrigInv'){
+  let r = TablasNumericas.fnTrigonometricasInv(n1,n2,razon);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+    if(x=='fnHip'){
+  let r = TablasNumericas.fnHiperbolicas(n1,n2,razon);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+    if(x=='fnHipInv'){
+  let r = TablasNumericas.fnHiperbolicasInv(n1,n2,razon);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='poligonos'){  
+  let r = TablasNumericas.reportePoligonos(n1,n2);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos3(r,'tbl','', '','','','','',"fn");
+	document.getElementById('tbl').tBodies[0].style.height='500px';
+	redimensionarColsAncho('tbl');
+  }
+  if(x=='pesosBinario'){  
+    let r = TablasNumericas.pesosBinario(n1);
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos(r,'tblPesosBinarios');
+  }
+  if(x=='valoresVerdad'){
+    let r = TablasNumericas.valorVerdad();
+	document.getElementById('idResultados1').innerHTML =crearTabla_MatrizDatos(r,'tblValVerdad');
+  }
+}
+function getHtmlDivs(filas){
+let html="<p>Total de elementos: "+filas.length+"</p>";
+html+="<p>Elementos:</p>";
+html+="<div>";
+for (let i=0; i<filas.length;i++){
+	html+="<div class='divT'>"+filas[i]+"</div>";
+}
+html+="</div>";
+return html;
+}
+function getHtmlTable(idTabla, filas){
+let html="<p>Total de elementos: "+filas.length+"</p>";
+html+='<table id="'+idTabla+'">';
+html+='<tr><th>N</th><th>Elemento</th></trh>';
+for (let i=0; i<filas.length;i++){
+	html+='<tr><td>'+(i+1)+'</td><td>'+filas[i]+'</td></tr>';
+}
+html+='</table>';
+return html;
+}
+
+function crearTabla_MatrizDatos(matriz, id,title="") {
+	let estilo = " border='1' cellpadding='1' cellspacing='1' style='text-align:center;'"
+	let resultado = "<table id='" + id +"' "+ estilo + ">";
+	let tip="";
+	for (let row = 0; row < matriz.length; ++row) {
+	  resultado += "<tr>";
+	  for (let col = 0; col < matriz[row].length; ++col) {
+		if (title=="x") tip=matriz[row][0]+"x"+matriz[0][col]+"="+matriz[row][col];
+		if (title=="fn") tip=matriz[0][col]+"("+matriz[row][0]+")="+matriz[row][col];
+		if (col==0 || row==0)tip="";
+		resultado += "<td title="+tip+">" + matriz[row][col] + "</td>";
+	  }
+		resultado += "</tr>";
+	}
+
+	resultado += "</table>";
+	return resultado;
+}
+
+function crearTabla_MatrizDatos2(matriz, id, cssTabla, cssCabFila,cssCabCol, cssData) {
+	let estilo = " border='1' cellpadding='1' cellspacing='1' style='text-align:center;'";
+	let resultado = "";
+	if (cssTabla!='')
+		resultado= "<table id='" + id +"' class='"+ cssTabla + "'>";
+	else
+		resultado = "<table id='" + id +"' "+ estilo + ">";
+	for (let row = 0; row < matriz.length; ++row) {
+		resultado += "<tr>";
+		for (let col = 0; col < matriz[row].length; ++col) {
+			if(row==0 && col>0)
+				resultado += "<th class='" +cssCabCol+"'>" + matriz[row][col] + "</th>";
+			else if(col==0 )
+				resultado += "<th class='" +cssCabFila+"'>" + matriz[row][col] + "</th>";
+			else 
+				resultado += "<td class='" +cssData+"'>" + matriz[row][col] + "</td>";
+			
+		}
+		resultado += "</tr>";
+	}
+
+	resultado += "</table>";
+	return resultado;
+}
+
+function crearTabla_MatrizDatos3(matriz, id, cssTabla, cssTHead,cssTBody, cssCabFila,cssCabCol, cssData,title="") {
+	let estilo =" border='1' style='text-align:center;'";
+	let resultado = "";
+	let tip="";
+	if (cssTabla!='')
+		resultado= "<table id='" + id +"' class='"+ cssTabla + "'>";
+	else
+		resultado = "<table id='" + id +"' "+ estilo + ">";
+		
+	for (let row = 0; row < matriz.length; ++row) {
+	    if(row==0) resultado += "<thead class='"+cssTHead+"'>";
+		if(row==1) resultado += "<tbody class='"+cssTBody+"'>";
+		
+		resultado += "<tr>";
+		for (let col = 0; col < matriz[row].length; ++col) {
+			if(row==0)
+				resultado += "<th class='" +cssCabCol+"'>" + matriz[row][col] + "</th>";
+			else if(col==0 && row>0 && cssCabFila!='')
+				resultado += "<th class='" +cssCabFila+"'>" + matriz[row][col] + "</th>";
+			else {
+			  if (title=="fn") tip=matriz[0][col]+"("+matriz[row][0]+")="+matriz[row][col];
+			  resultado += "<td class='" +cssData+"' title='"+tip+"'>" + matriz[row][col] + "</td>";
+			}
+		}
+		resultado += "</tr>";
+		if(row==0) resultado += "</thead>";
+		if(row==matriz.length-1) resultado += "</tbody>";
+	}
+
+	resultado += "</table>";
+	return resultado;
+}
+
+class TablasNumericas {
+//static aleatorio(limiteMenor, limiteMayor){return parseInt((Math.random()*(limiteMayor-limiteMenor+1)+limiteMenor));}
+static listaAleatorios(inicio,fin,total,reales=0){
+let res=[];
+if(reales==0)
+  for(let i=1;i<=total;i++) res.push(parseInt((Math.random()*(fin-inicio+1)+inicio)));
+else 
+  for(let i=1;i<=total;i++) res.push(parseFloat((Math.random()*(fin-inicio+1)+inicio)));
+
+  
+return res;
+}
+static serieAritmetica(inicio,fin,razon){
+let res=[];
+if(razon>0){
+for(let i=inicio;i<=fin;i+=razon)
+  res.push(i);
+}else if(razon<0){
+for(let i=inicio;i>=fin;i+=razon)
+  res.push(i);
+}
+return res;
+}
+static serieGeometrica(inicio,fin,razon){
+if(razon==1) return null;
+let res=[];
+if(razon>1){
+for(let i=inicio;i<=fin;i*=razon)
+  res.push(i);
+}else if(razon<1 && razon>0){
+for(let i=inicio;i>=fin;i*=razon)
+  res.push(i);
+}
+return res;
+}
+static esPrimo(n){
+	if (n<=1) return false;
+    for(let k=2;k<n;k++){
+        if(n%k==0)
+            return false;
+    }
+	return true;
+}
+static listaNumerosPrimos(inicio,fin){
+	let res=[];
+	if(inicio<2)inicio=2;
+	for(let i=inicio;i<=fin;i++)
+		if(this.esPrimo(i))
+			res.push(i);
+	return res;
+}
+static sonNumerosAmigos(a,b){
+/*Dos numeros A y B son amigos si B es igual a la suma de todos los divisores de A, excepto A,
+ y si A es igual a la suma de todos los divisores de B, excepto B
+ Ejm:  220 y 284 ,  17296 y 18416 ,  9363584 y 9437056
+*/
+    let sumaDivisores1,sumaDivisores2, i
+    sumaDivisores1 = 0
+    for (i = 1;i<=a/2;i++)
+        if (a % i == 0) 
+            sumaDivisores1+=i;
+		
+    sumaDivisores2 = 0;
+	for (i = 1;i<=b/2;i++)
+        if (b % i == 0) 
+            sumaDivisores2+=i;
+    if (sumaDivisores1 == b && sumaDivisores2 == a)
+        return true;//Si son Numeros Amigos
+    else
+        return false;//No son Numeros Amigos
+}
+	
+static ternasPitagorias(inicio,fin) {
+	let a,b,c;
+	let res=[];
+	if(inicio<1)inicio=1;
+	for(a=inicio;a<=fin;a++)
+		for(b=inicio;b<=fin;b++)
+			for(c=inicio;c<=fin;c++)
+				if(a*a+b*b==c*c)
+					res.push(a+"; "+b+"; "+c);
+	return res;
+}
+
+static esNumeroPerfecto(n){
+/* Un numero es perfecto si es igual a la suma de sus divisores (incluido el numero 1 y 
+ excluido el propio numero). Por ejemplo 28 es un numero perfecto porq 28=1+2+4+7+14
+ Ejemplo de numeros perfectos: 6, 28, 496 y 8128  */
+    let  i, band;
+    i = Math.trunc(n/2);
+    band = 0;
+    while (i > 0){
+        if (n%i == 0) band = band + i;
+        i--;
+    }
+    return (band == n);
+}
+static listaNumerosPerfectos(inicio,fin){
+	let res=[];
+	if(inicio<2)inicio=2;
+	for(let i=inicio;i<=fin;i++)
+		if(this.esNumeroPerfecto(i))
+			res.push(i);
+	return res;
+}
+static esNumeroDefectuoso(n){
+/*Suma de sus divisores propios es menor que el numero
+ejemplo: 18,35
+*/		
+    let suma=0;
+    for (var divisor = 1; divisor<n; divisor++)
+        if (n%divisor == 0) suma+=divisor;
+    return suma<n;
+}
+static listaNumerosDefectuosos(inicio,fin){
+	let res=[];
+	if(inicio<2)inicio=2;
+	for(let i=inicio;i<=fin;i++)
+		if(this.esNumeroDefectuoso(i))
+			res.push(i);
+	return res;
+}
+static esNumeroAbundante(n){
+/*Suma de sus divisores propios es menor que el numero
+ejemplo: 20
+*/		
+    let suma=0;
+    for (var divisor = 1; divisor<n; divisor++)
+        if (n%divisor == 0) suma+=divisor;
+    return suma>n;
+}
+static listaNumerosAbundante(inicio,fin){
+	let res=[];
+	if(inicio<2)inicio=2;
+	for(let i=inicio;i<=fin;i++)
+		if(this.esNumeroAbundante(i))
+			res.push(i);
+	return res;
+}
+static invertirCifras(n){
+  var inver = 0
+  var i
+  while (n > 0){
+    i = n%10;
+    inver = inver * 10 + i;
+    n = Math.trunc(n/10);
+  }
+  return inver;
+}
+static esCapicua(n){ return n==this.invertirCifras(n);}
+static listaNumerosCapicua(inicio,fin){
+	let res=[];
+	if(inicio<0)inicio=0;
+	for(let i=inicio;i<=fin;i++)
+		if(this.esCapicua(i))
+			res.push(i);
+	return res;
+}
+
+static listaCuadradosPerfectos(inicio,fin){
+	let res=[];
+	if(inicio<0)inicio=0;
+	let r;
+	for(let i=inicio;i<=fin;i++){
+	    r=Math.sqrt(i); 
+		if(r==parseInt(r))
+			res.push(i);
+	}
+	return res;
+}
+static listaCubosPerfectos(inicio,fin){
+	let res=[];
+	if(inicio<0)inicio=0;
+	let r;
+	for(let i=inicio;i<=fin;i++){
+	    r=Math.cbrt(i); 
+		if(r==parseInt(r))
+			res.push(i);
+	}
+	return res;
+}
+static listaFormulaRecurrencia(intInf,intSup,formula){
+let res=[];
+for(let i=intInf;i<=intSup;i++)
+  res.push(eval(formula));
+return res;
+}
+static listaCumplePatron(intInf,intSup,patron){
+let res=[];
+for(let i=intInf;i<=intSup;i++)
+  if(eval(patron)) res.push(i);
+return res;
+}
+static trianguloPascal(n){
+	let res='';
+	let nro,i,j;	
+	nro = 1;
+	i = 1;
+	res = nro + '\n';
+	while (i <= n) {
+		res += nro + '\t';
+		j = 1;
+		while (j <= i) {
+			nro = nro * (i - j + 1) / j;
+			res += nro + '\t';
+			if (j == i)
+				res += '\n';
+			j = j + 1;
+		}
+		i = i + 1;
+	}
+	return res;
+}
+
+
+static serieFibonacciLimite(limite){	
+	let res=[];
+	let a=0,b=1,c=0;
+	res.push(a);
+	while ((b <= limite)) {
+		res.push(b);
+		c = a + b;
+		a = b;
+		b = c;
+	}
+	return res;
+}
+static serieFibonacci(numeroTerminos){
+	//Funcion q devuelve una lista cuyos elementos son 
+	//la serie de fibonacci. Esta funcion devuelve un total de "numero" elementos
+	
+	let res=[];
+	let a=0,b=1,c=0;
+	res.push(a);
+	let cont=1;
+	while ((cont<numeroTerminos)) {
+		res.push(b);
+		c = a + b;
+		a = b;
+		b = c;
+		cont++;
+	}
+	return res;
+}
+
+static crearMatriz(totalFilas, totalColumnas) {
+let matriz = [];
+for (let i = 0; i < totalFilas; ++i) {
+	let columns = [];
+	for (let j = 0; j < totalColumnas; ++j) {
+		columns[j] = '';
+	}
+	matriz[i] = columns;
+}
+return matriz;
+}
+
+static cuadradoLatino(n){
+	//Un cuadro latino es un arreglo de "n" simbolos en "n^2" celdas 
+	//arregladas en un cuadrado de  filas y  columnas, tal que 
+	//todo simbolo aparece una sola vez en cada fila y en cada columna. 
+	//El termino "n" se conoce como el orden del cuadro latino
+
+	let sw,i,j,k, temp;
+	let matriz=this.crearMatriz(n,n);
+	sw = 0;
+	for (i=0;i<n;i++) {
+		if (sw==0){
+			for (j=0;j<n;j++) {
+				matriz[i][j]=j+1;
+			}
+			sw = 1;
+		} else {
+			temp=matriz[i-1][n-1];
+			for (k = n-1; k > 0; k--) {
+				matriz[i][k]=matriz[i-1][k-1];
+			}
+			matriz[i][0]=temp;
+		}
+	}
+	return matriz;
+}
+
+static cuadradoMagico(n){
+	//Un cuadrado magico es una matriz cuadrada de orden N q contiene numeros enteros desde 1 hasta N^2.
+	// La suma de los numeros q figuran en cada fila, columna y diagonales son iguales
+	//Para generar un cuadrado magico debe seguir ls siguientes pasos:
+	//1. Situe el numero 1 en la casilla central de la primera fila 
+	//2. Cada numero q sigue debe colocarse en la  casilla correspondiente a la fila anterior y columna posterior
+	//3. Si un numero generado cae en la casilla ocupada, no aplique la regla anterior, sino
+	//   q debe colocarlo en la casilla de la fila posterior e igual columna
+	//4. Se considera q cada fila anterior a  la primera es la ultima y la columna posterior a la ultima es la primera
+	let f,c,num,i,j;
+	let matriz=this.crearMatriz(n,n);
+	f = 1;
+	c = parseInt(n/2);
+	for (num = 1; num <= n * n; num++) {
+		//aa(f, C) = num;
+		matriz[f-1][c-1]=num;
+		if ((num % n == 0)) {
+			f = f + 1;
+		} else {
+			if (f == 1) {
+				f = n;
+			} else {
+				f = f - 1;
+			}
+
+			if (c == n) {
+				c = 1;
+			} else {
+				c = c + 1;
+			}
+		}
+	}
+	return matriz;
+}
+static tablaMultiplicar(inicio,fin){
+    let n = fin-inicio+1;
+	let matriz=this.crearMatriz(n+1,n+1);
+	for (let i=0;i<=n;i++){
+		for (let j=0;j<=n;j++){
+		   if(i==0)matriz[i][j]=inicio+j-1;
+		   else if(j==0)matriz[i][j]=inicio+i-1;
+		   else matriz[i][j]=matriz[0][j]*matriz[i][0];
+		}
+	}
+	matriz[0][0]="N";	
+	return matriz;
+}
+static listarDivisoresNumero(n){	
+    var resultado=[];
+    for (var divisor = 1; divisor<=n; divisor++)
+        if (n%divisor == 0) resultado.push(divisor);
+    return resultado;
+}
+
+static factorizacionNumero(n){ 
+    var resultado=[];
+    var i = 2;
+    while (i <= n){
+        if (n% i == 0){
+            n = Math.trunc(n/i);
+            resultado.push(i);
+		}
+        else
+            i++;
+    }
+    return resultado;
+}
+static tablaDivisores(inicio,fin){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N"; matriz[0][1]="Divisores";matriz[0][2]="Total";
+  if(inicio<1)inicio=1;
+	
+  let fila=[];
+  let lTemp=[];
+  for (let i=inicio;i<=fin;i++){
+    fila=[];
+	fila[0]=i;
+	lTemp= this.listarDivisoresNumero(i);
+	fila[1]=lTemp.toString();
+	fila[2]=lTemp.length;
+	matriz.push(fila);
+  }
+  return matriz;
+}
+static tablaFactorizacion(inicio,fin){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N"; matriz[0][1]="Fectorización";
+  if(inicio<1)inicio=1;
+	
+  let fila=[];
+  let lTemp=[];
+  for (let i=inicio;i<=fin;i++){
+    fila=[];
+	fila[0]=i;
+	lTemp= this.factorizacionNumero(i);
+	fila[1]=lTemp.join(" x ");
+	matriz.push(fila);
+  }
+  return matriz;
+}
+static tablaPotencias(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";matriz[0][1]="N^2";matriz[0][2]="N^3";
+  matriz[0][3]="N^4";matriz[0][4]="N^5";matriz[0][5]="N^6";
+  matriz[0][6]="N^7";matriz[0][7]="N^8";matriz[0][8]="N^9";matriz[0][9]="N^10";
+	
+  //datos
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+	fila=[];
+	fila[0]=i;
+	fila[1]=Math.pow(i,2);
+	fila[2]=Math.pow(i,3);
+	fila[3]=Math.pow(i,4);
+	fila[4]=Math.pow(i,5);
+	fila[5]=Math.pow(i,6);
+	fila[6]=Math.pow(i,7);
+	fila[7]=Math.pow(i,8);
+	fila[8]=Math.pow(i,9);
+	fila[9]=Math.pow(i,10);
+	matriz.push(fila);
+  }
+  return matriz;
+}
+
+static tablaRaices(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";	
+  matriz[0][1]="N^(1/2)";matriz[0][2]="N^(1/3)";matriz[0][3]="N^(1/4)";
+  matriz[0][4]="N^(1/5)";matriz[0][5]="N^(1/6)";matriz[0][6]="N^(1/7)";
+  matriz[0][7]="N^(1/8)";matriz[0][8]="N^(1/9)";matriz[0][9]="N^(1/10)";
+  //datos
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+	fila=[];
+	fila[0]=i;
+	fila[1]=Math.pow(i,1/2);
+	fila[2]=Math.pow(i,1/3);
+	fila[3]=Math.pow(i,1/4);
+	fila[4]=Math.pow(i,1/5);
+	fila[5]=Math.pow(i,1/6);
+	fila[6]=Math.pow(i,1/7);
+	fila[7]=Math.pow(i,1/8);
+	fila[8]=Math.pow(i,1/9);
+	fila[9]=Math.pow(i,1/10);
+	matriz.push(fila);
+  }
+  return matriz;
+}
+static tablaLogaritmos(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";	
+  matriz[0][1]="ln(N)";matriz[0][2]="log2(N)";matriz[0][3]="log3(N)";
+  matriz[0][4]="log4(N)";matriz[0][5]="log5(N)";matriz[0][6]="log6(N)";
+  matriz[0][7]="log7(N)";matriz[0][8]="log8(N)";matriz[0][9]="log9(N)";
+  matriz[0][10]="log10(N)";
+	
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+	fila=[];
+	for(let j=0; j<=10;j++){
+	  if(j==0)fila[j]=i;
+	  else if(j==1)fila[j]=Math.log(i);
+	  else fila[j]=Math.log(i)/Math.log(j);
+	}
+	matriz.push(fila);
+  }
+  return matriz;
+}
+static tablaAscii(){
+let matriz=this.crearMatriz(256-32+1,2);
+matriz[0][0]="Ascii";matriz[0][1]="Simbolo";
+for(let i=32;i<=255;i++){
+  matriz[i-31][0]=i; matriz[i-31][1]=String.fromCharCode(i);
+}
+return matriz;
+}
+static romano(n){
+let unidades, decenas, centenas, millares, resultado=''; 
+unidades=n%10;n=Math.trunc(n/10); decenas=n%10;n=Math.trunc(n/10); centenas=n%10;n=Math.trunc(n/10); millares=n%10;
+switch(millares){case 1: resultado="M"; break;case 2: resultado="MM"; break; case 3: resultado="MMM"; break;}
+switch(centenas){ 
+case 1: resultado+="C" ; break;case 2: resultado+="CC" ; break; case 3: resultado+="CCC" ; break; 
+case 4: resultado+="CD" ; break; case 5: resultado+="D" ; break; case 6: resultado+="DC" ; break; 
+case 7: resultado+="DCC" ; break; case 8: resultado+="DCCC" ; break; case 9: resultado+="CM" ; break; 
+}
+switch(decenas){ 
+case 1: resultado+="X" ; break; case 2: resultado+="XX" ; break; case 3: resultado+="XXX" ; break; 
+case 4: resultado+="XL" ; break; case 5: resultado+="L" ; break; case 6: resultado+="LX" ; break; 
+case 7: resultado+="LXX" ; break; case 8: resultado+="LXXX" ; break; case 9: resultado+="XC" ; break; 
+} 
+
+switch( unidades ){ 
+case 1: resultado+="I"; break; case 2: resultado+="II"; break; case 3: resultado+="III"; break; 
+case 4: resultado+="IV"; break; case 5: resultado+="V"; break; case 6: resultado+="VI"; break; 
+case 7: resultado+="VII"; break; case 8: resultado+="VIII"; break; case 9: resultado+="IX"; break; 
+}	
+return resultado;
+}
+static tablaRomanos(){
+let matriz=this.crearMatriz(4000,2);
+matriz[0][0]="Nro";matriz[0][1]="Romano";
+for(let i=1;i<=3999;i++){
+  matriz[i][0]=i; matriz[i][1]=this.romano(i);
+}
+return matriz;
+}
+static factorial(n){
+let factorial=1;
+while(n>1) factorial*=n--;
+return factorial;
+}
+static funcionesBasicas(inicio,fin){
+    let n = fin-inicio+1;
+	let matriz=this.crearMatriz(n+1,10);
+	let nro=inicio;
+	//cabeceras
+	matriz[0][0]="N";	
+	matriz[0][1]="1/N";matriz[0][2]="N^(1/2)";matriz[0][3]="N^(1/3)";
+	matriz[0][4]="N^2";matriz[0][5]="N^3";matriz[0][6]="log10(N)";
+	matriz[0][7]="ln(N)";matriz[0][8]="N!";matriz[0][9]="e^N";
+	
+	for (let i=1;i<=n;i++){	
+		matriz[i][0]=nro;
+		matriz[i][1]=1/nro;
+		matriz[i][2]=Math.pow(nro,1/2);
+		matriz[i][3]=Math.pow(nro,1/3);
+		matriz[i][4]=Math.pow(nro,2);
+		matriz[i][5]=Math.pow(nro,3);
+		matriz[i][6]=Math.log10(nro);
+		matriz[i][7]=Math.log(nro);
+		matriz[i][8]=this.factorial(nro);
+		matriz[i][9]=Math.exp(nro);
+		nro++;
+	}
+	return matriz;
+}
+
+static convertir_base_10_n(numero, base){
+  let numeroCadena=[];
+	let nroDecimales = 20;
+	numeroCadena = numero.toString().split("");
+	let exponente = Math.trunc(numero).toString().length-1;
+	if(numero.toString().includes('-'))exponente--;
+	let resultado='';
+	
+	let residuo = 0;
+	let parteEntera=numero.toString().split(".")[0];
+	
+	//Operamos la parte entera del numero, solo si el numero tiene parte entera
+	if (parteEntera != 0) {
+		//parteEntera = 0;
+		while (parseInt(parteEntera) >= parseInt(base)) {
+			residuo = parteEntera % base;
+			if (residuo >= 10) {
+				resultado = this.valorNumero(residuo) + resultado;
+			} else {
+				resultado = residuo + resultado;
+			}
+			parteEntera = Math.trunc(parteEntera/base);
+		}
+		if (parseInt(parteEntera) >= 10) {
+			resultado = this.valorNumero(parteEntera) + resultado;
+		} else {
+			resultado = parteEntera + resultado;
+		}
+	}
+	
+	
+	return resultado;
+}
+static valorNumero(numero){
+//Funcion q devuelve el valor de los digitos mayores q 10. Ejem: 10=A, 11=B, 12=C...
+	return String.fromCharCode(parseInt(numero) + 55);
+}
+static basesNumericas(inicio,fin){
+    let n = fin-inicio+1;
+	let matriz=this.crearMatriz(n+1,10);
+	let nro=inicio;
+	//cabeceras
+	matriz[0][0]="N";
+	for (let i=2;i<=16;i++) matriz[0][i-1]="Base "+i;
+	
+	for (let i=1;i<=n;i++){
+	    matriz[i][0]=nro;
+		for (let j=2;j<=16;j++){
+		   matriz[i][j-1]=this.convertir_base_10_n(nro, j);
+		}
+		nro++;
+	}
+	return matriz;
+}
+
+static fnTrigonometricas(inicio,fin,razon){
+	let matriz=[];
+	//cabeceras
+	matriz[0]=[];
+	matriz[0][0]="N";	
+	matriz[0][1]="Sen Sexagesimal";matriz[0][2]="Cos Sexagesimal";matriz[0][3]="Tg Sexagesimal";
+	matriz[0][4]="Ctg Sexagesimal";matriz[0][5]="Sec Sexagesimal";matriz[0][6]="Csc Sexagesimal";
+	matriz[0][7]="Sen Radial";matriz[0][8]="Cos Radial";matriz[0][9]="Tg Radial";
+	matriz[0][10]="Ctg Radial";matriz[0][11]="Sec Radial";matriz[0][12]="Csc Radial";
+	matriz[0][13]="Sen Centesimal";matriz[0][14]="Cos Centesimal";matriz[0][15]="Tg Centesimal";
+	matriz[0][16]="Ctg Centesimal";matriz[0][17]="Sec Centesimal";matriz[0][18]="Csc Centesimal";
+	let fila=[];
+	for (let i=inicio;i<=fin;i+=razon){
+	    fila=[];
+	    fila[0]=i;
+		fila[1]=Trigonometria.senoSexagesimal(i);
+		fila[2]=Trigonometria.cosenoSexagesimal(i);
+		fila[3]=Trigonometria.tangenteSexagesimal(i);
+		fila[4]=Trigonometria.cotangenteSexagesimal(i);
+		fila[5]=Trigonometria.secanteSexagesimal(i);
+		fila[6]=Trigonometria.cosecanteSexagesimal(i);
+		fila[7]=Trigonometria.senoRadial(i);
+		fila[8]=Trigonometria.cosenoRadial(i);
+		fila[9]=Trigonometria.tangenteRadial(i);
+		fila[10]=Trigonometria.cotangenteRadial(i);
+		fila[11]=Trigonometria.secanteRadial(i);
+		fila[12]=Trigonometria.cosecanteRadial(i);
+		fila[13]=Trigonometria.senoCentesimal(i);
+		fila[14]=Trigonometria.cosenoCentesimal(i);
+		fila[15]=Trigonometria.tangenteCentesimal(i);
+		fila[16]=Trigonometria.cotangenteCentesimal(i);
+		fila[17]=Trigonometria.secanteCentesimal(i);
+		fila[18]=Trigonometria.cosecanteCentesimal(i);
+		matriz.push(fila);
+	}
+	return matriz;
+}
+static fnTrigonometricasInv(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";	
+  matriz[0][1]="Sen Sexagesimal Inverso";matriz[0][2]="Cos Sexagesimal Inverso";matriz[0][3]="Tg Sexagesimal Inverso";
+  matriz[0][4]="Ctg Sexagesimal Inverso";matriz[0][5]="Sec Sexagesimal Inverso";matriz[0][6]="Csc Sexagesimal Inverso";
+  matriz[0][7]="Sen Radial Inverso";matriz[0][8]="Cos Radial Inverso";matriz[0][9]="Tg Radial Inverso";
+  matriz[0][10]="Ctg Radial Inverso";matriz[0][11]="Sec Radial Inverso";matriz[0][12]="Csc Radial Inverso";
+  matriz[0][13]="Sen Centesimal Inverso";matriz[0][14]="Cos Centesimal Inverso";matriz[0][15]="Tg Centesimal Inverso";
+  matriz[0][16]="Ctg Centesimal Inverso";matriz[0][17]="Sec Centesimal Inverso";matriz[0][18]="Csc Centesimal Inverso";
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+    fila=[];
+    fila[0]=i;
+    fila[1]=Trigonometria.senoSexagesimalInverso(i);
+    fila[2]=Trigonometria.cosenoSexagesimalInverso(i);
+    fila[3]=Trigonometria.tangenteSexagesimalInverso(i);
+    fila[4]=Trigonometria.cotangenteSexagesimalInverso(i);
+    fila[5]=Trigonometria.secanteSexagesimalInverso(i);
+    fila[6]=Trigonometria.cosecanteSexagesimalInverso(i);
+    fila[7]=Trigonometria.senoRadialInverso(i);
+    fila[8]=Trigonometria.cosenoRadialInverso(i);
+    fila[9]=Trigonometria.tangenteRadialInverso(i);
+    fila[10]=Trigonometria.cotangenteRadialInverso(i);
+    fila[11]=Trigonometria.secanteRadialInverso(i);
+    fila[12]=Trigonometria.cosecanteRadialInverso(i);
+    fila[13]=Trigonometria.senoCentesimalInverso(i);
+    fila[14]=Trigonometria.cosenoCentesimalInverso(i);
+    fila[15]=Trigonometria.tangenteCentesimalInverso(i);
+    fila[16]=Trigonometria.cotangenteCentesimalInverso(i);
+    fila[17]=Trigonometria.secanteCentesimalInverso(i);
+    fila[18]=Trigonometria.cosecanteCentesimalInverso(i);		
+	matriz.push(fila);
+  }
+  return matriz;
+}
+
+static fnHiperbolicas(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";	
+  matriz[0][1]="Sen Hiperbolico";matriz[0][2]="Cos Hiperbolico";matriz[0][3]="Tg Hiperbolica";
+  matriz[0][4]="Ctg Hiperbolica";matriz[0][5]="Sec Hiperbolica";matriz[0][6]="Csc Hiperbolica";
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+    fila=[];	
+	fila[0]=i;
+	fila[1]=Trigonometria.senoHiperbolico(i);
+	fila[2]=Trigonometria.cosenoHiperbolico(i);
+	fila[3]=Trigonometria.tangenteHiperbolica(i);
+	fila[4]=Trigonometria.cotangenteHiperbolica(i);
+	fila[5]=Trigonometria.secanteHiperbolica(i);
+	fila[6]=Trigonometria.cosecanteHiperbolica(i);	
+	matriz.push(fila);
+  }
+  return matriz;
+}
+static fnHiperbolicasInv(inicio,fin,razon){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+	matriz[0][0]="N";	
+	matriz[0][1]="Sen Hiperbolico Inverso";matriz[0][2]="Cos Hiperbolico Inverso";matriz[0][3]="Tg Hiperbolica Inverso";
+	matriz[0][4]="Ctg Hiperbolica Inverso";matriz[0][5]="Sec Hiperbolica Inverso";matriz[0][6]="Csc Hiperbolica Inverso";
+	
+  let fila=[];
+  for (let i=inicio;i<=fin;i+=razon){
+    fila=[];
+	fila[0]=i;
+	fila[1]=Trigonometria.senoHiperbolicoInverso(i);
+	fila[2]=Trigonometria.cosenoHiperbolicoInverso(i);
+	fila[3]=Trigonometria.tangenteHiperbolicaInverso(i);
+	fila[4]=Trigonometria.cotangenteHiperbolicaInverso(i);
+	fila[5]=Trigonometria.secanteHiperbolicaInverso(i);
+	fila[6]=Trigonometria.cosecanteHiperbolicaInverso(i);		
+	matriz.push(fila);
+  }
+  return matriz;
+}
+
+static reportePoligonos(inicio,fin){
+  let matriz=[];
+  //cabeceras
+  matriz[0]=[];
+  matriz[0][0]="N";	
+  matriz[0][1]="Suma angulos internos";matriz[0][2]="Angulo interno";matriz[0][3]="Suma angulos externos";matriz[0][4]="Angulo externo";
+  matriz[0][5]="Suma angulos centrales";matriz[0][6]="Angulo central";matriz[0][7]="Diagonales";matriz[0][8]="Diagonales medias";
+  if(inicio<3)inicio=3;
+	
+  let fila=[];
+  for (let i=inicio;i<=fin;i++){
+    fila=[];
+	fila[0]=i;
+	fila[1]=Poligono.Suma_Angulos_Interiores(i);
+	fila[2]=Poligono.medida_Angulo_Interior_PoligonoRegular(i);
+	fila[3]=Poligono.Suma_Angulos_Exteriores_PoligonoConvexo(i);
+	fila[4]=Poligono.medida_Angulo_Exterior_PoligonoRegular(i);
+	fila[5]=Poligono.Suma_Angulos_Centrales_PoligonoConvexo(i);
+	fila[6]=Poligono.medida_Angulo_Central_PoligonoRegular(i);
+	fila[7]=Poligono.Nro_Total_Diagonales(i);
+	fila[8]=Poligono.Nro_Total_DiagonalesMedias(i);
+	matriz.push(fila);
+  }
+  return matriz;
+}
+
+static pesosBinario(numeroBits){
+  //Dim matriz(2 ^ numeroBits - 1, numeroBits - 1) As String
+  let matriz=this.crearMatriz(2**numeroBits, numeroBits) ;
+  let band = false;
+  let valor, i, j, cont;
+  cont = 0;
+  valor = (2 ** numeroBits) / 2;
+  for (j = 0;j< numeroBits;j++){// ' por cada columna
+      for (i = 0;i< 2 ** numeroBits;i++){// 'por cada fila
+        if (band == false) {
+          matriz[i][j] = 0
+          cont = cont + 1
+          if (cont == valor) {
+           band = true
+           cont = 0
+	      }
+        }else{
+          matriz[i][j] = 1
+          cont = cont + 1
+          if (cont == valor) {
+            band = false
+            cont = 0
+          }
+        }
+      }
+      valor = valor / 2
+  }
+  return matriz;
+}
+static valorVerdad(){
+  let matriz=[];
+  matriz[0]=[];matriz[1]=[];matriz[2]=[];matriz[3]=[];matriz[4]=[];
+  matriz[0][0]="A";	matriz[0][1]="B";
+  matriz[0][2]="-A";matriz[0][3]="-B";matriz[0][4]="A AND B"; matriz[0][5]="A OR B";
+  matriz[0][6]="A XOR B"; matriz[0][7]="A -> B"; matriz[0][8]="A <- B"; matriz[0][9]="A <-> B";
+  matriz[0][10]="A NOR B"; matriz[0][11]="A NAND B";
+  
+  matriz[1][0]="1";matriz[1][1]="1";
+  matriz[2][0]="1";matriz[2][1]="0";
+  matriz[3][0]="0";matriz[3][1]="1";
+  matriz[4][0]="0";matriz[4][1]="0";
+
+  let v1,v2;
+  for (let i=1;i<=4;i++){
+	v1=(matriz[i][0]=="1");
+	v2=(matriz[i][1]=="1");
+	matriz[i][2]=(!v1)?"1":"0";
+	matriz[i][3]=(!v2)?"1":"0";
+	matriz[i][4]=(v1 && v2)?"1":"0";
+	matriz[i][5]=(v1 || v2)?"1":"0";
+	matriz[i][6]=(v1 != v2)?"1":"0";
+	matriz[i][7]=(!v1 || v2)?"1":"0";
+	matriz[i][8]=(v1 || !v2)?"1":"0";;
+	matriz[i][9]=(v1 == v2)?"1":"0";
+	matriz[i][10]=(!(v1||v2))?"1":"0";
+	matriz[i][11]=(!(v1&&v2))?"1":"0";
+  }
+  return matriz;
+}
+
+}//
+
+function redimensionarColsAncho(idTabla){
+let tb = document.getElementById(idTabla);
+for (let i=0; i<tb.rows[0].cells.length; i++){
+	let thWidth=tb.tHead.rows[0].cells[i].clientWidth-2;
+	let tdWidth=tb.tBodies[0].rows[0].cells[i].clientWidth-2;	
+	/*	alert(thWidth+'-'+tdWidth);
+	alert(tb.tHead.rows[0].cells[i].innerHTML);
+	alert(tb.tBodies[0].rows[0].cells[i].innerHTML);
+
+    if (thWidth<tdWidth)
+		tb.tHead.rows[0].cells[i].style.width=tdWidth;	
+    else
+	    tb.tBodies[0].rows[0].cells[i].style.width=thWidth;
+	*/
+	if (thWidth<tdWidth)
+		tb.tHead.rows[0].cells[i].width=tdWidth;	
+    else
+	    tb.tBodies[0].rows[0].cells[i].width=thWidth;
+}
+}
+
+class Trigonometria {
+// "Funciones Trigonometricas en Radianes"
+static senoRadial(n){return Math.sin(n);}
+static cosenoRadial(n){return Math.cos(n);}
+static tangenteRadial(n){return Math.tan(n);}
+static cotangenteRadial(n){return 1 / Math.tan(n);}
+static secanteRadial(n){return 1 / Math.cos(n);}
+static cosecanteRadial(n){return 1 / Math.sin(n);}
+
+// Funciones Trigonometricas en Sexagesimales"
+static senoSexagesimal(n){
+	n = n / 180 * Math.PI;
+	return Math.sin(n);
+}
+static cosenoSexagesimal(n){
+	n = n / 180 * Math.PI;
+	return Math.cos(n);
+}
+static tangenteSexagesimal(n){
+	n = n / 180 * Math.PI;
+	return Math.tan(n);
+}
+static cotangenteSexagesimal(n){
+	n = n / 180 * Math.PI;
+	return 1 / Math.tan(n);
+}
+static secanteSexagesimal(n){
+		n = n / 180 * Math.PI;
+		return 1 / Math.cos(n);
+}
+static cosecanteSexagesimal(n){
+	n = n / 180 * Math.PI;
+	return 1 / Math.sin(n);
+}	
+
+//"Funciones Trigonometricas en Centesimales"
+static senoCentesimal(n){
+	n = n / 200 * Math.PI;
+	return Math.sin(n);
+}
+static cosenoCentesimal(n){
+	n = n / 200 * Math.PI;
+	return Math.cos(n);
+}
+static tangenteCentesimal(n){
+	n = n / 200 * Math.PI;
+	return Math.tan(n);
+}
+static cotangenteCentesimal(n){
+	n = n / 200 * Math.PI;
+	return 1 / Math.tan(n);
+}
+static secanteCentesimal(n){
+	n = n / 200 * Math.PI;
+	return 1 / Math.cos(n);
+}
+static cosecanteCentesimal(n){
+	n = n / 200 * Math.PI;
+	return 1 / Math.sin(n);
+}
+
+	//Funciones Hiperbolicas
+static senoHiperbolico(n){
+    //Dominio: R	//Rango: R	
+	return (Math.exp(n) - Math.exp(-1 * n)) / 2;
+}
+static cosenoHiperbolico(n){
+    //Dominio: R	//Rango: R
+	return (Math.exp(n) + Math.exp(-1 * n)) / 2;
+}
+static tangenteHiperbolica(n){
+	//Dominio: R		//Rango: ]-1 ; 1[
+	return (Math.exp(n) - Math.exp(-1 * n)) / (Math.exp(n) + Math.exp(-1 * n));
+}
+static cotangenteHiperbolica(n){
+	//Dominio: R -{0}		//Rango: R - [-1 ; 1]
+	if (n != 0) {
+		return 1 / this.tangenteHiperbolica(n);
+	} else {
+		return 'No existe';
+		//"No Existe"
+	}
+}
+static secanteHiperbolica(n){
+	//Dominio: R		//Rango: ]0 ; 1]
+	return 1 / this.cosenoHiperbolico(n);
+}
+static cosecanteHiperbolica(n){
+	//Dominio: R -{0}		//Rango: R - [-1 ; 1]
+	if (n != 0) {
+		return 1 / this.senoHiperbolico(n);
+	} else {
+		return 'No existe';
+		//"No Existe"
+	}
+}
+	
+//Funciones Hiperbolicas Inversas
+static senoHiperbolicoInverso(n){
+//Dominio: R		//Rango: R
+	return (Math.log(n + Math.sqrt(Math.pow(n, 2) + 1)));
+}
+static cosenoHiperbolicoInverso(n){
+//Dominio: [1 ; oo>		//Rango: [0 ; oo>
+	if (n >= 1) {
+		return Math.log(n + Math.pow((Math.pow(n, 2) - 1), (0.5)));
+	} else {
+		return 'No existe';
+	}
+}
+static tangenteHiperbolicaInverso(n){
+//Dominio: <-1 ; 1>		//Rango: R
+	if (Math.abs(n) < 1) {
+		return (1 / 2) * Math.log((1 + n) / (1 - n));
+	} else {
+		return 'No existe';
+	}
+}
+static cotangenteHiperbolicaInverso(n){
+//Dominio: R - [-1 ; 1]	//Rango: R - {0}
+	if (Math.abs(n) > 1) {
+		return (1 / 2) * Math.log((n + 1) / (n - 1));
+	} else {
+		return 'No existe';
+	}
+}
+static secanteHiperbolicaInverso(n)	{
+	//Dominio: <0 ; 1]		//Rango: [0 ; oo>
+	if (n > 0 & n <= 1) {
+		return Math.log((1 + Math.sqrt(1 - Math.pow(n, 2))) / n);
+	} else {
+		return 'No existe';
+	//  "No Existe"
+}
+}
+static cosecanteHiperbolicaInverso(n){
+	//Dominio: R - {0}
+	//Rango: R - {0}
+	if (n > 0) {
+		return Math.log((1 + Math.sqrt(1 + Math.pow(n, 2))) / Math.abs(n));
+	} else if (n < 0) {
+		return -1 * Math.log((1 + Math.sqrt(1 + Math.pow(n, 2))) / Math.abs(n));
+	} else {
+		return 'No existe';
+		//"No Existe"
+	}
+}
+
+	
+// "Funciones Trigonometricas Inversas en Radianes"
+static senoRadialInverso(n){
+	if (n == 1) {
+		return Math.PI / 2;
+	} else if (n == -1) {
+		return -1 * Math.PI / 2;
+	} else if (n < -1 | n > 1) {
+		return 'No existe';
+		//"El Dominio de esta Funcion esta comprendida entre [-1 ; 1]"
+	} else {
+		return Math.atan(n / Math.sqrt(-n * n + 1));
+	}
+}
+
+static cosenoRadialInverso(n){
+	if (n == 1) {
+		return 0;
+	} else if (n == -1) {
+		return Math.PI;
+	} else if (n < -1 | n > 1) {
+		return 'No existe';
+		// "El Dominio de esta Funcion esta comprendida entre [-1 ; 1]"
+	} else {
+		return Math.atan(-n / Math.sqrt(-n * n + 1)) + 2 * Math.atan(1);
+	}
+}
+
+static tangenteRadialInverso(n){return Math.atan(n);}
+
+static cotangenteRadialInverso(n){return Math.atan(n) + 2 * Math.atan(1);}
+
+static secanteRadialInverso(n){
+	if (n < 1 & n > -1) {
+		return 'No existe';
+		// "El Dominio de esta Funcion esta comprendida entre:  ]-oo ; -1[  U  ]1 ; oo["
+	} else if (n == 1) {
+		return 0;
+	} else if (n == -1) {
+		return Math.PI;
+	} else {
+		return Math.atan(n / Math.sqrt(n * n - 1)) + Math.sign((n) - 1) * (2 * Math.atan(1));
+	}
+}
+
+static cosecanteRadialInverso(n){
+	if (n < 1 & n > -1) {
+		return 'No existe';
+		//"El Dominio de esta Funcion esta comprendida entre:  ]-oo ; -1[  U  ]1 ; oo["
+	} else if (n == 1) {
+		return Math.PI / 2;
+	} else if (n == -1) {
+		return -1 * Math.PI / 2;
+	} else {
+		return Math.atan(n / Math.sqrt(n * n - 1)) + (Math.sign(n) - 1) * (2 * Math.atan(1));
+	}
+}
+
+//"Funciones Trigonometricas Inversas en Sexagesimales"
+static senoSexagesimalInverso(n){
+	if (n == 1) {
+		return 90;
+	} else if (n == -1) {
+		return -90;
+	} else if (n < -1 | n > 1) {
+		return "El Dominio de esta Funcion esta comprendida entre [-1 ; 1]";
+	} else {
+		let res = Math.atan(n / Math.sqrt(-n * n + 1));
+		res = res * 180 / Math.PI;
+		return res;
+	}
+}
+
+static cosenoSexagesimalInverso(n){
+	if (n == 1) {
+		return 0;
+	} else if (n == -1) {
+		return 180;
+	} else if (n < -1 | n > 1) {
+		return "El Dominio de esta Funcion esta comprendida entre [-1 ; 1]";
+	} else {
+		let res = Math.atan(-n / Math.sqrt(-n * n + 1)) + 2 * Math.atan(1);
+		res = res * 180 / Math.PI;
+		return res;
+	}
+}
+
+static tangenteSexagesimalInverso(n){return Math.atan(n) * 180 / Math.PI;}
+
+static cotangenteSexagesimalInverso(n){
+	let res= Math.atan(n) + 2 * Math.atan(1);
+	return res * 180 / Math.PI;
+}
+
+static secanteSexagesimalInverso(n){
+	let res = Math.atan(n / Math.sqrt(n * n - 1)) + Math.sign((n) - 1) * (2 * Math.atan(1));
+	return res * 180 / Math.PI;
+}
+
+static cosecanteSexagesimalInverso(n){
+	let res = Math.atan(n / Math.sqrt(n * n - 1)) + (Math.sign(n) - 1) * (2 * Math.atan(1));
+	return res * 180 / Math.PI;
+}
+	
+
+//"Funciones Trigonometricas Inversas en Centesimales"
+static senoCentesimalInverso(n){
+	if (n == 1) {
+		return 100;
+	} else if (n == -1) {
+		return -100;
+	} else if (n < -1 | n > 1) {
+		return "El Dominio de esta Funcion esta comprendida entre [-1 ; 1]";
+	} else {
+		let res= Math.atan(n / Math.sqrt(-n * n + 1));
+		return res * 200 / Math.PI;
+	}	
+}
+
+static cosenoCentesimalInverso(n){
+	if (n == 1) {
+		return 0;
+	} else if (n == -1) {
+		return 200;
+	} else if (n < -1 | n > 1) {
+		return "El Dominio de esta Funcion esta comprendida entre [-1 ; 1]";
+	} else {
+		let res= Math.atan(-n / Math.sqrt(-n * n + 1)) + 2 * Math.atan(1);
+		return res * 200 / Math.PI;
+	}
+}
+
+static tangenteCentesimalInverso(n){return Math.atan(n) * 200 / Math.PI;}
+
+static cotangenteCentesimalInverso(n){
+	let res = Math.atan(n) + 2 * Math.atan(1);
+	return res * 200 / Math.PI;
+}
+
+static secanteCentesimalInverso(n){
+	let res = Math.atan(n / Math.sqrt(n * n - 1)) + Math.sign((n) - 1) * (2 * Math.atan(1));
+	return res * 200 / Math.PI;
+}
+
+static cosecanteCentesimalInverso(n){
+	let res = Math.atan(n / Math.sqrt(n * n - 1)) + (Math.sign(n) - 1) * (2 * Math.atan(1));
+	return res * 200 / Math.PI;
+}
+}
+class Poligono {
+static Nro_Total_Diagonales(nroLados){return (nroLados*(nroLados - 3))/2;}
+static Nro_Total_DiagonalesMedias(nroLados){return ((nroLados * (nroLados - 1))/2);}
+static Nro_Total_Diagonales_desde_V_VerticesConsecutivos(nroLados, nroVerticesConsecutivos){
+  return ((nroVerticesConsecutivos * nroLados) - (((nroVerticesConsecutivos + 1) * (nroVerticesConsecutivos + 2)) / 2));
+}
+static Nro_Total_DiagonalesMedias_desde_M_LadosConsecutivos(nroLados, nroLadosConsecutivos){
+  return ((nroLadosConsecutivos * nroLados) - (((nroLadosConsecutivos) * (nroLadosConsecutivos + 1)) / 2));
+}
+static Nro_TriangulosFormados_trazarDiagonalesDesde1Verice(nroLados){return nroLados - 2;}
+static Suma_Angulos_Interiores(nroLados){return 180*(nroLados - 2);}
+static Suma_Angulos_Exteriores_PoligonoConvexo(nroLados){return 360;}
+static Suma_Angulos_Centrales_PoligonoConvexo(nroLados){return 360;}
+static medida_Angulo_Central_PoligonoRegular(nroLados){return (360 / nroLados);}
+static medida_Angulo_Interior_PoligonoRegular(nroLados){return ((180 * (nroLados - 2)) / nroLados);}
+static medida_Angulo_Exterior_PoligonoRegular(nroLados){return (360 / nroLados);}
+static Suma_Angulos_Interiores_PoligonoEstrellado(nroLados){return 180 * (nroLados - 4);}
+static Suma_Angulos_InterioresNoConvexos_PoligonoEstrellado(nroLados){return 180 * (nroLados + 2);}
+static Suma_Angulos_Exteriores_PoligonoEstrellado(nroLados){return 720;}
+}
+</script>
+<div >
+<fieldset>
+<legend>Parametros</legend>
+  <p id="pInicio"><label>Inicio</label><input type="number" id="txtNumero1" value="1"/></p>
+  <p id="pFin"><label>Fin</label><input type="number" id="txtNumero2" value="1000"/></p>
+  <p id="pRazon"><label>Razon</label><input type="number" id="txtNumero3" value="1000"/></p>
+  <label>Mostrar</label><select id="cboOpciones">
+  <optgroup label="Listas">
+    <option value="aleatorios">Números aleatorios enteros</option>
+	<option value="aleatoriosF">Números aleatorios decimales</option>
+	<option value="serieArit">Serie aritmética</option>
+    <option value="serieGeom">Serie geométrica</option>
+    <option value="numerosPrimos">Números primos</option>
+    <option value="ternasPitagorias">Ternas pitagorias</option>
+	<option value="numerosCapicua">Números capicúa</option>
+	<option value="numerosPerfectos">Números perfectos</option>
+	<option value="numerosAbundante">Números abundantes</option>
+	<option value="numerosDefectuoso">Números defectuosos</option>
+	<option value="trianguloPascal">Triangulo de Pascal</option>
+	<option value="serieFibonacciLimite">Serie de fibonaci (limite)</option>
+	<option value="serieFibonacci">Serie de fibonaci(Nro de terminos)</option>
+	<option value="cuadradosPerfectos">Cuadrados perfectos</option>
+	<option value="cubosPerfectos">Cubos perfectos</option>
+	<option value="formulaRecurrencia">Formula de recurrencia</option>
+	<option value="cumplePatron">Patron</option>
+</optgroup >
+<optgroup label="Tablas">
+    <option value="tblMult">Tablas de multiplicar</option>
+	<option value="tblDivisores">Divisores</option>
+	<option value="tblFact">Factorizacion</option>
+	<option value="fnMath">Funciones matematicas</option>
+    <option value="basesNumericas">Bases numericas</option>
+    <option value="fnTrig">Funciones trigonometricas</option>
+	<option value="fnTrigInv">Funciones trigonometricas inversas</option>
+	<option value="fnHip">Funciones hiperbolicas</option>
+	<option value="fnHipInv">Funciones hiperbolicas inversas</option>
+	<option value="nroRomanos">Números romanos</option>
+	<option value="codAscii">Codigo ASCII</option>
+	<option value="potencias">Potencias</option>
+	<option value="raices">Raices</option>
+	<option value="logaritmos">Logaritmos</option>
+	<option value="poligonos">Poligonos</option>
+	<option value="cuadradoLatino">Cuadrado latino</option>
+	<option value="cuadradoMagico">Cuadrado magico</option>
+	<option value="pesosBinario">Matriz de pesos binario</option>
+	<option value="valoresVerdad">Valores de verdad</option>
+</optgroup >
+  </select>
+  <button id="btnMostrar">Mostrar</button><br>
+    </fieldset>
+  
+  <div id="idResultados1" class="tableContainer"></div>
+  
+  <div id="idResultados2" class="resultados">
+  <textarea id="txtResultados" readonly rows="25" cols="100" ></textarea>
+  </div>
+
+</div>
+
+</body>
+</html>
